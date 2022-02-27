@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" data-color-mode="dark" data-dark-theme="dark_dimmed">
+<!-- th:replaceを使用して、 <head>用のフラグメントを読込みます -->
+<head th:replace="common/head :: head_fragment(title = 'index', scripts = ~{::script}, links = ~{::link})">
+</head>
+<body>
+  <!-- th:replaceを使用して、 ヘッダー用のフラグメントを読込みます -->
+  <div th:replace="common/header :: header_fragment"></div>
+  <div class="container-lg">
+    <div class="col-12 p-2 mx-auto">
+      <div class="Subhead">
+        <div class="Subhead-heading" th:text="${entry.name}"></div>
+      </div>
+      <div class="Box Box--condensed" th:each="comment, status : ${comment_list}">
+        <div class="Box-row d-flex flex-items-center">
+          <div class="flex-auto">
+            <span class="d-none d-sm-inline mr-3" th:text="${#numbers.formatInteger(status.count, 4)}"></span>
+            <span class="d-none d-sm-inline mr-3" th:text="${comment.userName}"></span>
+            <span class="d-none d-sm-inline" th:text="*{#temporals.format(comment.updateDt, 'yyyy/MM/dd HH:mm:ss')}"></span>
+            <div class="color-fg-subtle mt-4 f5" th:utext="${comment.comment}"></div>
+          </div>
+        </div>
+      </div>
+      <div class="Subhead mt-6"></div>
+      <form th:action="@{/forum/comment_post}" method="post" th:object="${commentPostForm}">
+        <div class="form-group">
+          <div class="form-group-header">
+            <label for="example-textarea">Comment</label>
+          </div>
+          <div class="form-group-body">
+            <textarea class="form-control" id="comment" name="comment" th:field="*{comment}"></textarea>
+            <input type="hidden" id="entryId" name="entryId" th:value="${entry.id}" >
+            <button class="btn btn-primary mt-3" type="submit">Post</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+  <!-- th:replaceを使用して、 フッター用のフラグメントを読込みます -->
+  <div th:replace="common/footer :: footer_fragment"></div>
+</body>
+</html>

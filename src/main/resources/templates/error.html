@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" data-color-mode="dark" data-dark-theme="dark_dimmed">
+<!-- th:replaceを使用して、 <head>用のフラグメントを読込みます -->
+<head th:replace="common/head :: head_fragment(title = 'index', scripts = ~{::script}, links = ~{::link})">
+</head>
+<body>
+    <div th:replace="common/header :: header_fragment"></div>
+    <div class="container-lg">
+        <div class="col-12 p-2 mx-auto">
+            <div id="contents">
+                <!-- エラー内容を表示 -->
+                <h1 th:text="${status}"></h1>
+                <p th:text="${message}"></p>
+                <p th:text="${path}"></p>
+                <p th:text="${timestamp}"></p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
